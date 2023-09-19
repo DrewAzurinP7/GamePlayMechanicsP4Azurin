@@ -36,12 +36,20 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         float forwardInput = Input.GetAxis("Vertical");
+
         playerRb.AddForce(focalPoint.transform.forward * speed * forwardInput);
+
         powerupIndicator.transform.position = transform.position + new Vector3(0,-0.5f, 0);
 
         if(currentPowerUp == PowerUpType.Rockets && Input.GetKeyDown(KeyCode.F))
         {
             LaunchRockets(); 
+        }
+
+        if (currentPowerUp == PowerUpType.Smash && Input.GetKeyDown(KeyCode.Space) && !smashing)
+        {
+            smashing = true;
+            StartCoroutine(Smash());
         }
     }
     private void OnTriggerEnter(Collider other)
